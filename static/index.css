@@ -1,0 +1,48 @@
+html, body {
+	font-family: "Times New Roman", Times, serif;
+}
+
+.alert {
+	display: none;
+}
+
+.error {
+	animation: blink 2s linear infinite;
+	font-weight: 1000;
+}
+
+.fontsize-20 {
+	font-size: 20px;
+}
+
+.list-group-item {
+    padding: 3px 3px 3px 3px;
+    height: 70px;
+}
+
+ul.your-horizontal-list {
+    white-space: nowrap;
+    overflow-y: auto;
+}
+
+ul.your-horizontal-list li[class*="span"] {
+    display: inline-block;
+    float: none;
+}
+
+#canvas {
+	z-index: -1;
+	position: absolute;
+    top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #a94442;
+}
+
+
+@keyframes blink {
+	0%{opacity: 0;}
+	50%{opacity: .5;}
+	100%{opacity: 1;}
+}
+

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+	
+        <title>Tasks To-Do</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="static/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="static/index.css">
+		<link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+		
+    </head>
+	
+	<body>
+	
+		<canvas id="canvas"></canvas>
+	
+		<!-- Home -->
+        <div class="container text-center mt-3">
+			<h1> Tasks To-Do </h1>
+			{% if view and not error %}
+			<button id="create" type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#task_form"> Create task </button>
+			{% endif %}
+			{% if error %}
+			<button class="btn btn-dark" onClick="window.location.href='{{ url_for('index') }}'"> Refresh </button>
+			{% endif %}
+        </div>
+
+		<!-- Modal - Task Creation -->
+		<div id="task_form" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title"> Configure task details </h5>
+					</div>
+					<div class="modal-body">
+						<form id="form" action="/task" method="post" enctype="multipart/form-data">
+							<div class="form-group">
+								<label for="task_name"> Name </label>
+								<input type="text" class="form-control" id="task_name" placeholder="eg: Household Activities" name="task_name" minlength="1" maxlength="100" required>
+							</div>
+							<div class="form-group">
+								<label for="task_desc"> Description </label>
+								<input type="text" class="form-control" id="task_desc" placeholder="eg: Disposing old items, Cleaning fridge" name="task_desc" minlength="1" maxlength="100" required>
+							</div>
+							<button id="create_task" type="submit" class="btn btn-dark float-right"> Create </button>
+							<button id="reset" type="reset" class="btn btn-dark"> Reset </button>
+						</form>
+					</div>
+					<div>
+						<div class="alert alert-danger p-0 text-center"><span id="error" class="error"></span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Task Boards -->
+		{% if view %}
+        <div class="container mt-3">
+			<ul class="list-group list-group-horizontal">
+    			{% for task in tasks %}
+    			<li class="list-group-item d-flex justify-content-between">
+                    <div class="p-0 m-0 flex-grow-1">
+                        <h5> {{ task['title'] }} </h5>
+            			<p> {{ task['description'] }} </p>
+                    </div>
+                    <button class="btn btn-danger" onclick="delete_task({{ url_for('delete_task', id={{ task['id']}}) }})">Delete</button>
+    			</li>
+    			{% endfor %} 
+    		</ul>
+        </div>
+   		{% endif %}
+		
+		<!-- Error -->
+		{% if error %}
+        <div class="container mt-5">
+			<p class="text-center text-white fontsize-20"> {{ message }} </p>
+			<button class="btn btn-dark btn-lg" onClick="window.location.href='{{ url_for('index') }}'"> Home </button>
+		</div>
+		{% endif %}
+
+	</body>
+	
+	<script src="static/jquery.min.js"></script>
+	<script src="static/popper.min.js"></script>
+    <script src="static/bootstrap.min.js"></script>
+    <script src="static/index.js"></script>
+	
+</html>
